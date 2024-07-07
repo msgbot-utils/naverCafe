@@ -43,7 +43,6 @@ create.prototype.update = function(){
     let versionData = this.getVersion();
     if(!versionData.needUpdate) return "already lastest";
     return update(versionData.lastest, this.main, this.scriptName), Api.reload(this.scriptName);
-    // get .zip file bytes -> this.main /naverCafe/ <version> .zip saved -> extract zip to module path -> update success !
 }
 
 

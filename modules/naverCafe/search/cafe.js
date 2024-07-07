@@ -1,24 +1,25 @@
 importClass(org.jsoup.Jsoup)
 importClass(org.jsoup.Connection)
 
-//수정 바람
 module.exports = (function(){
 
     /**
     * @param {string} query
     * @param {number} max
-    * @param {number} sortBy
+    * @param {number?} sortBy 
     * @return {object}
     */
 
     function main(query, max, sortBy){
+        if(sortBy == undefined) sortBy = 0 
+
         let data = parsing(query, 1, sortBy)
         let count = Math.min(data.message.result.totalCount, max)
         let res = data.message.result.searchResultCafe.searchResult
         
         for(let i = 2; res.length < count; i++){
             data = parsing(query, i, sortBy)
-            res.concat(data.message.result.searchResultCafe.searchResult)
+            res = res.concat(data.message.result.searchResultCafe.searchResult)
         }
 
         res.length = count
@@ -30,15 +31,23 @@ module.exports = (function(){
     }
 
     function parsing(query, page, sortBy){
-        return JSON.parse(
+        let data = JSON.parse(
             Jsoup.connect("https://apis.naver.com/cafe-home-web/cafe-home/v3/search/cafes")
-            .data("query", query)
-            .data("sortBy", sortBy)
-            .data("page", page)
+            .header("content-type", "application/json")
+            .requestBody(JSON.stringify({
+                query: query,
+                page: page,
+                sortBy: sortBy
+            }))
             .ignoreContentType(true)
             .method(Connection.Method.POST)
             .execute().body()
         )
+
+        data.message.result.searchResultCafe.searchResult.map(e=>{
+            e.cafename = e.cafename.replace(/(<b>|<\/b>)/g, "")
+            return e
+        })
     }
 
     return main;
