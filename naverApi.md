@@ -66,7 +66,7 @@ https://apis.naver.com/cafe-home-web/cafe-home/v3/home?myCafeCount=65536&article
 
 cafe list(PC & Mobile) :
 GET - per 15 - https://apis.naver.com/cafe-home-web/cafe-home/v1/config/join-cafes/groups/?page=1
-님아 ㅔ 와보셈 ㅇㄷ
+
 
 -- cafe secede (탈퇴) (need login) --
 
@@ -92,6 +92,7 @@ write :
 POST - https://apis.naver.com/cafe-web/cafe-editor-api/v2/cafes/29537083/menus/1/articles
 
 data -
+```js
 {
   "article": {
     "from": "mobile",
@@ -112,3 +113,4 @@ data -
     "tradeArticle": false
   }
 }
+```
