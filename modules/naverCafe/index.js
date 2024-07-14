@@ -1,4 +1,5 @@
 let login = require("../Naver_login");
+let LoginError = require("./error/LoginError")
 let update = require("./update");
 
 function create /** @constructor */ (config) {
@@ -43,22 +44,4 @@ create.prototype.update = function(){
     let versionData = this.getVersion();
     if(!versionData.needUpdate) return "already lastest";
     return update(versionData.lastest, this.main, this.scriptName), Api.reload(this.scriptName);
-}
-
-
-
-/**
- * 
- * @param {string} message - error Message
- * @returns {object} - error object
- */
-
-function LoginError(message) {
-    try{
-        naverLoginError();
-    }catch (err) {
-        err.name = "LoginError";
-        err.message = message;
-        return err;
-    }
 }

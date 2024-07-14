@@ -16,15 +16,25 @@ GET - https://apis.naver.com/cafe-web/cafe-mobile/CafeMobileWebArticleSearchList
 PC search _ article & comment :
 GET - https://apis.naver.com/cafe-web/cafe-articleapi/cafes/29537083/articles/42426/searches?limit=5&query=selinux&searchBy=0&sortBy=date&page=1&searchType=IN_CAFE
 
-search cafe :
+~~search cafe name~~ ./modules/naverCafe/search/cafe.js :
 PC & Mobile - POST - 12 per page - https://apis.naver.com/cafe-home-web/cafe-home/v3/search/cafes
 
-data -
-{
-  "query": "카카오톡",
-  "sortBy": 0,
-  "page": 1
-}
+search all article :
+PC & Mobile - POST - https://apis.naver.com/cafe-home-web/cafe-home/v3/search/articles
+
+example -
+
+org.jsoup.Jsoup.connect("https://apis.naver.com/cafe-home-web/cafe-home/v3/search/cafes")
+.method(org.jsoup.Connection.Method.POST)
+.header("Content-Type", "application/json")
+.requestBody(JSON.stringify({
+query: "데브로봇스",
+sortBy: 0,
+page: 1,
+}))
+.ignoreContentType(true)
+.execute()
+.body()
 
 -- article list --
 
@@ -62,6 +72,7 @@ cafe count :
 GET - https://apis.naver.com/cafe-home-web/cafe-home/v1/config/mycafe-counts
 
 cafe list + discovery :
+https://apis.naver.com/cafe-home-web/cafe-home/v1/cafes/join
 https://apis.naver.com/cafe-home-web/cafe-home/v3/home?myCafeCount=65536&articleCount=1
 
 cafe list(PC & Mobile) :
@@ -70,8 +81,7 @@ GET - per 15 - https://apis.naver.com/cafe-home-web/cafe-home/v1/config/join-caf
 
 -- cafe secede (탈퇴) (need login) --
 
-GET - https://m.cafe.naver.com/CafeSecede.nhn?clubid= ${cafeId}
-
+POST - https://cafe.naver.com/CafeSecede.nhn?clubid= ${cafeId}
 
 -- cafe join (가입) (need login) --
 
@@ -85,14 +95,13 @@ POST - https://apis.naver.com/cafe-web/cafe-mobile/ArticleDelete.json
 
 data -
 cafeId: 31116013
-articleId: 61
+articleId: 61 
 requestFrom: A
 
 write :
 POST - https://apis.naver.com/cafe-web/cafe-editor-api/v2/cafes/29537083/menus/1/articles
 
 data -
-```js
 {
   "article": {
     "from": "mobile",
@@ -113,4 +122,59 @@ data -
     "tradeArticle": false
   }
 }
-```
+
+
+{
+   "document": {
+      "version": "2.8.0",
+      "theme": "default",
+      "language": "ko-KR",
+      "id": "01J232EQVZ3NCPQ2HNN1CG1TA9",
+      "components": [
+         {
+            "id": "SE-ad7e8c1a-00c1-40de-b938-655fb67040bc",
+            "layout": "default",
+            "value": [
+               {
+                  "id": "SE-e4b8acd6-a628-4773-9c12-3cba1349adad",
+                  "nodes": [
+                     {
+                        "id": "SE-e7dff082-ab4b-4b4f-a163-b4de0f0ced72",
+                        "value": "글 확인 , 카페 정보 같은 것은 다 봤는 데",
+                        "@ctype": "textNode"
+                     }
+                  ],
+                  "@ctype": "paragraph"
+               },
+               {
+                  "id": "SE-70b0fd3b-2f5f-44e9-ae15-bfe9da2731f3",
+                  "nodes": [
+                     {
+                        "id": "SE-b6ee7325-78a5-4563-8274-84aa38be8bfa",
+                        "value": "  글 작성이랑 삭제가 애매한 거에요",
+                        "@ctype": "textNode"
+                     }
+                  ],
+                  "@ctype": "paragraph"
+               }
+            ],
+            "@ctype": "text"
+         }
+      ],
+      "di": {
+         "dif": false,
+         "dio": [
+            {
+               "dis": "N",
+               "dia": {
+                  "t": 0,
+                  "p": 0,
+                  "st": 0,
+                  "sk": 0
+               }
+            }
+         ]
+      }
+   },
+   "documentId": ""
+}
